@@ -269,6 +269,8 @@ def main():
             print("Random Number is : ", random_number)
             reset=False
         user_input = input('Input guess number : ')
+        if user_input=='0': break
+
         if not is_validated_number(user_input):
             print('Wrong Input, Input again')
             continue
