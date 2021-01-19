@@ -212,7 +212,12 @@ def is_yes(one_more_input):
     # '''
     # ===Modify codes below=============
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당
-    result=one_more_input[:3].lower()
+
+    # 3자리 이상이 문자열은 무조건 False
+    if len(one_more_input) >3:
+        return False
+
+    result=one_more_input.lower()
     # 이러면 한글, 숫자 다 걸러진다.
     if result=='y' or result=='yes':
         return True
@@ -243,9 +248,12 @@ def is_no(one_more_input):
     # >>> bg.is_no("yes")
     # False
     # '''
-    # ===Modify codes below=============
-    # 조건에 따라 변환되어야 할 결과를 result 변수에 할당
-    result=one_more_input[:2].lower()
+    
+    # 2자리 이상이 문자열은 무조건 False
+    if len(one_more_input) >2:
+        return False
+
+    result=one_more_input.lower()
     if result=='n' or result=='no':
         return True
     # ==================================
@@ -254,35 +262,32 @@ def is_no(one_more_input):
 
 def main():
     print("Play Baseball")
-    user_input = 999
-    random_number = str(get_not_duplicated_three_digit_number())
-    print("Random Number is : ", random_number)
-    # ===Modify codes below=============
-    # 위의 코드를 포함하여 자유로운 수정이 가능함
+    reset=True
     while True:
-        user_input=input('Input guess number : ')
+        if reset:
+            random_number = str(get_not_duplicated_three_digit_number())
+            print("Random Number is : ", random_number)
+            reset=False
+        user_input = input('Input guess number : ')
         if not is_validated_number(user_input):
-            print('Wrong Input')
+            print('Wrong Input, Input again')
             continue
         
         check=get_strikes_or_ball(user_input,random_number)
+        print("Strikes : {0} , Balls : {1}".format(*check))
         if not check==[3,0]:
-            print(check)
             continue
         
         while True:
             more=input('You win, one more(Y/N)?')
             if is_yes(more):
+                reset=True
                 break
             elif is_no(more):
                 print("Thank you for using this program")
                 print("End of the Game")
                 return
-            print("Wrong Input") 
-        
-    # ==================================
-    print("Thank you for using this program")
-    print("End of the Game")
+            print("Wrong Input, Input again") 
 
 if __name__ == "__main__":
     main()
